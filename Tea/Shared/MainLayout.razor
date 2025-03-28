@@ -1,12 +1,110 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
 
 <PageTitle>Tea</PageTitle>
 
 <div class="page">
    
     <main>
-        <Header/>
+        @switch (CurrentHeader)
+        {
+            case HeaderType.Header:
+                <Header />
+                break;
+
+            case HeaderType.HeaderAbout:
+                <HeaderAbout />
+                break;
+
+            case HeaderType.HeaderProducts:
+                <HeaderProducts />
+                break;
+
+            case HeaderType.HeaderStore:
+                <HeaderStore />
+                break;
+
+            case HeaderType.HeaderShopTea:
+                <HeaderShopTea />
+                break;
+
+            case HeaderType.HeaderBlog:
+                <HeaderBlog />
+                break;
+
+            case HeaderType.HeaderTestimonial:
+                <HeaderTestimonial />
+                break;
+
+            case HeaderType.HeaderNotFound:
+                <HeaderNotFound />
+                break;
+
+            case HeaderType.HeaderContact:
+                <HeaderContact />
+                break;
+
+            default:
+                <Header />
+                break;
+        }
         @Body
         <Footer/>
     </main>
 </div>
+
+@code {
+    private HeaderType CurrentHeader;
+
+    protected override void OnInitialized()
+    {
+        SetHeader(NavigationManager.Uri);
+        NavigationManager.LocationChanged += (sender, args) => SetHeader(args.Location);
+    }
+
+    private void OnLocationChanged(object sender, LocationChangedEventArgs args)
+    {
+        SetHeader(args.Location);
+        StateHasChanged();
+    }      
+    
+    protected enum HeaderType
+    {
+        Header,
+        HeaderAbout,
+        HeaderProducts,
+        HeaderStore,       
+        HeaderBlog,
+        HeaderShopTea,
+        HeaderTestimonial,
+        HeaderNotFound,
+        HeaderContact
+    }
+
+    private void SetHeader(string uri)
+    {
+        if (uri.Contains("about", StringComparison.OrdinalIgnoreCase))
+            CurrentHeader = HeaderType.HeaderAbout;
+        else if (uri.Contains("products", StringComparison.OrdinalIgnoreCase))
+            CurrentHeader = HeaderType.HeaderProducts;
+        else if (uri.Contains("store", StringComparison.OrdinalIgnoreCase))
+            CurrentHeader = HeaderType.HeaderStore;       
+        else if (uri.Contains("blog", StringComparison.OrdinalIgnoreCase))
+            CurrentHeader = HeaderType.HeaderBlog;
+        else if (uri.Contains("shop-tea", StringComparison.OrdinalIgnoreCase))
+            CurrentHeader = HeaderType.HeaderShopTea;
+        else if (uri.Contains("testimonial", StringComparison.OrdinalIgnoreCase))
+            CurrentHeader = HeaderType.HeaderTestimonial;
+        else if (uri.Contains("404", StringComparison.OrdinalIgnoreCase))
+            CurrentHeader = HeaderType.HeaderNotFound;
+        else if (uri.Contains("contact", StringComparison.OrdinalIgnoreCase))
+            CurrentHeader = HeaderType.HeaderContact;
+        else
+            CurrentHeader = HeaderType.Header;
+    }
+
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= OnLocationChanged;
+    }
+}
