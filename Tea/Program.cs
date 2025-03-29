@@ -9,6 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
+// Додаємо сервіс для контролерів
+builder.Services.AddRazorPages();
+builder.Services.AddControllers(); // Додаємо контролери для API
+
 
 var app = builder.Build();
 
@@ -20,6 +24,9 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseStaticFiles(); // Доступ до wwwroot
+app.MapControllers(); // Додаємо маршрути для контролерів
+app.MapRazorPages();
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
@@ -28,5 +35,7 @@ app.UseRouting();
 
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
+
+
 
 app.Run();
