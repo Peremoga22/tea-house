@@ -504,3 +504,44 @@
 .copyright a:hover {
     color: #FFFFFF !important;
 }
+
+
+/*** Add style for table ***/
+.custom-table-container {
+    margin: 40px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    max-width: 900px;
+}
+
+.table th, .table td {
+    padding: 15px;
+    text-align: left;
+}
+
+.table thead {
+    background: #f1f1f1; /* Світлий фон для заголовків */
+}
+
+.table th:first-child {
+    background: transparent !important; /* Видаляємо чорний фон з першого стовпця */
+}
+
+.btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end; /* Вирівнює кнопки по правому краю */
+    padding: 20px;
+    background: #f1f1f1;
+    border-top: 1px solid #ddd;
+    border-radius: 0 0 10px 10px;
+    max-width: 900px; /* Встановлює однакову ширину з таблицею */
+    margin: 0 auto; /* Центрує контейнер */
+}
